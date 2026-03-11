@@ -1,5 +1,5 @@
 # Backup2Chat
-[![asciicast](https://asciinema.org/a/827916.svg)](https://asciinema.org/a/827916)
+[![asciicast](https://asciinema.org/a/829241.svg)](https://asciinema.org/a/829241)
 
 **Backup2Chat** is a guided workflow and toolkit for extracting SMS conversations from an Android device backup and transforming them into readable chat logs directly in the terminal.
 
