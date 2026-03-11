@@ -1,0 +1,167 @@
+# jq SMS Backup Cheatsheet
+
+## Inspect JSON Structure
+
+```bash
+jq '.[0] | keys' sms_backup.json
+```
+
+Shows all fields present in a single SMS message object.
+
+---
+
+## Convert Timestamps to Human Readable Dates
+
+```bash
+jq '.[] | {date: (.date|tonumber/1000|strftime("%Y-%m-%d %H:%M:%S")), body, address}' sms_backup.json
+```
+
+Converts the SMS timestamp from milliseconds to a readable date format and prints key fields.
+
+---
+
+## Display Messages as a Chat Log
+
+```bash
+jq -r '.[] |
+  ((.date|tonumber/1000|strftime("%Y-%m-%d %H:%M")) +
+  " | " +
+  (if .type=="1" then .address else "Me" end) +
+  ": " +
+  .body)' sms_backup.json
+```
+
+Formats messages like a chronological chat conversation.
+
+---
+
+## Filter Messages From a Specific Contact
+
+```bash
+jq '.[] | select(.address=="+15555555555")' sms_backup.json
+```
+
+Shows only messages associated with a specific phone number.
+
+---
+
+## Extract Only Sent Messages
+
+```bash
+jq '.[] | select(.type=="2")' sms_backup.json
+```
+
+Filters messages so only outgoing (sent) messages are displayed.
+
+---
+
+## Remove Unwanted Metadata Fields
+
+```bash
+jq 'del(.[] .subject)' sms_backup.json > sms_clean.json
+```
+
+Removes the `subject` field (often proto metadata) from all messages.
+
+---
+
+## Export Messages to CSV
+
+```bash
+jq -r '.[] |
+  [.date, .address, .body] |
+  @csv' sms_backup.json
+```
+
+Converts SMS data into CSV format for spreadsheets or further analysis.
+
+---
+
+## Count Messages Per Contact
+
+```bash
+jq -r '.[].address' sms_backup.json | sort | uniq -c | sort -nr
+```
+
+Counts how many messages exist for each phone number.
+
+---
+
+## Find the Largest Conversations
+
+```bash
+jq -r '.[].address' sms_backup.json | sort | uniq -c | sort -nr | head
+```
+
+Displays the contacts with the most messages.
+
+---
+
+## Sort Messages Chronologically
+
+```bash
+jq 'sort_by(.date)' sms_backup.json > sorted_sms.json
+```
+
+Sorts all messages by timestamp and saves the result to a new JSON file.
+
+---
+
+## Detect Group Conversations
+
+```bash
+jq '.[] | select(.recipients | length > 1)' sms_backup.json
+```
+
+Identifies messages that involve multiple recipients (group chats).
+
+---
+
+## Group Messages by Contact
+
+```bash
+jq 'group_by(.address)' sms_backup.json
+```
+
+Groups all messages into arrays based on the contact phone number.
+
+---
+
+## Print Conversations Grouped by Contact
+
+```bash
+jq -r '
+group_by(.address)[] |
+"===== Conversation with " + .[0].address + " =====",
+(.[] |
+  ((.date|tonumber/1000|strftime("%Y-%m-%d %H:%M")) +
+  " | " +
+  (if .type=="1" then .address else "Me" end) +
+  ": " +
+  .body)),
+""
+' sms_backup.json
+```
+
+Formats grouped messages into readable conversations per contact.
+
+---
+
+## Prepare Conversations for Splitting Into Files
+
+```bash
+jq -r '
+group_by(.address)[] |
+  (.[0].address) as $a |
+  .[] |
+  [$a,
+   (.date|tonumber/1000|strftime("%Y-%m-%d %H:%M")),
+   (if .type=="1" then $a else "Me" end),
+   .body] |
+  @tsv
+' sms_backup.json
+```
+
+Exports messages grouped by contact in tab-separated format for processing or splitting into individual files.
+
+---
