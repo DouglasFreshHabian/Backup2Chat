@@ -1,0 +1,57 @@
+# Project Workflow
+
+```
+
+┌─────────────────────────────┐
+│ Android Device              │
+│                             │
+│  +------------------------+ │
+│  | Telephony App Data     | │
+│  | (SMS/MMS database)     | │
+│  | /data/data/com.android │ │
+│  | /providers/telephony/  | │
+│  +------------------------+ │
+│                             │
+└─────────────┬───────────────┘
+              │ Backup
+              ▼
+┌─────────────────────────────────┐
+│ ADB Encrypted Backup            │
+│                                 │
+│ adb backup -nocompress          │
+│ com.android.providers.telephony │
+│                                 │
+│ Output: backup.ab               │
+└─────────────┬───────────────────┘
+              │ Unpack
+              ▼
+┌─────────────────────────────┐
+│ Android Backup Extractor    │
+│                             │
+│ java -jar abe.jar           │
+│ unpack backup.ab backup.tar │
+│                             │
+│ Output: backup.tar          │
+└─────────────┬───────────────┘
+              │ Extract
+              ▼
+┌──────────────────────────────────────┐
+│ TAR Archive Structure                │
+│                                      │
+│ apps/com.android.providers.telephony │
+│ /d_f/000000_sms_backup               │
+└─────────────┬────────────────────────┘
+              │ Decompress
+              ▼
+┌──────────────────────────┐
+│ Zlib Compression Layer   │
+│                          │
+│ Output: sms_backup.json  │
+└─────────────┬────────────┘
+              │ Analyze
+              ▼
+┌─────────────────────────┐
+│ Terminal Chat Viewer    │
+│                         │
+│ smsviewer.sh            │
+└─────────────────────────┘
