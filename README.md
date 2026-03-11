@@ -183,7 +183,9 @@ Direction values:
 ---
 
 # Exploring the Backup with `jq`
-
+<details>
+  
+<summary>🖱 Click here to expand</summary>
 Before using the chat viewer, we will manually analyze the dataset.
 
 ---
@@ -277,8 +279,8 @@ Example output:
 317 +11234567890
 205 +19999999999
 ```
-
 ---
+</details>
 
 # Viewing Conversations Manually
 
@@ -290,7 +292,7 @@ This is where **`smsviewer.sh`** comes in.
 
 ---
 
-# Terminal Chat Viewer (`smsviewer.sh`)
+# Terminal Chat Viewer `smsviewer.sh`
 
 `smsviewer.sh` provides an interactive way to browse conversations.
 
