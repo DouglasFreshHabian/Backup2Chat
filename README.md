@@ -156,7 +156,7 @@ Each SMS entry looks similar to:
   "date": "1765057223938",
   "date_sent": "1765057224000",
   "read": "1",
-  "recipients": ["+5555555555"],
+  "recipients": ["+15555555555"],
   "self_phone": "+15555555555",
   "status": "-1",
   "subject": "proto:....",
