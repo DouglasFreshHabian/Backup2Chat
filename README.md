@@ -151,13 +151,13 @@ Each SMS entry looks similar to:
 
 ```json
 {
-  "address": "+14403465711",
+  "address": "+15555555555",
   "body": "E 36th right?",
   "date": "1765057223938",
   "date_sent": "1765057224000",
   "read": "1",
-  "recipients": ["+14403465711"],
-  "self_phone": "+12165986247",
+  "recipients": ["+5555555555"],
+  "self_phone": "+15555555555",
   "status": "-1",
   "subject": "proto:....",
   "type": "1"
