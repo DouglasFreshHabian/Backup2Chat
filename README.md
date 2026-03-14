@@ -13,7 +13,6 @@ Android device → ADB backup → decrypted archive → extracted JSON → termi
 
 Along the way, you will learn how to:
 
-- Verify which Android apps allow backup
 - Extract encrypted Android backup files
 - Decompress telephony backup data
 - Analyze SMS data using `jq`
@@ -30,17 +29,6 @@ By the end of this guide you will understand the **entire manual workflow**, and
 | `decompress.sh` | Decompresses Android telephony `_backup` files |
 | `smsviewer.sh` | Interactive terminal chat viewer |
 | `Docs/jq(cheatsheet)` | Helpful `jq` reference |
-
----
-
-# Step 0 — Determine Which Apps Allow Backup
-
-Some Android apps disable ADB backups.  
-This script checks which packages support backup.
-
-```bash
-./backupCheck.sh
-````
 
 ---
 
