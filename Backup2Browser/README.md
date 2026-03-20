@@ -1,4 +1,5 @@
 # View Android SMS Backup In The Browser
+[![asciicast](https://asciinema.org/a/857940.svg)](https://asciinema.org/a/857940)
 
 ### (Using jq + HTML + JavaScript)
 
