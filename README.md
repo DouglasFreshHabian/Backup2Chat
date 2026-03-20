@@ -327,36 +327,6 @@ The viewer automatically:
 
 ---
 
-# Project Workflow
-
-Backup2Chat demonstrates the **complete Android SMS extraction workflow**:
-
-```
-Android phone
-      │
-ADB backup
-      │
-backup.ab
-      │
-ABE decrypt
-      │
-backup.tar
-      │
-extract telephony data
-      │
-decompress backup files
-      │
-sms_backup.json
-      │
-jq analysis
-      │
-smsviewer.sh
-```
-
-The manual steps help you **understand the data**, while the smsviewer provides a **clean terminal interface for reading conversations**.
-
----
-
 ## License
 
 MIT License — feel free to fork, modify, and adapt for demos or educational content.
