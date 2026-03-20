@@ -1,34 +1,29 @@
 # Backup2Chat
 [![asciicast](https://asciinema.org/a/829241.svg)](https://asciinema.org/a/829241)
 
-**Backup2Chat** is a guided workflow and toolkit for extracting SMS conversations from an Android device backup and transforming them into readable chat logs directly in the terminal.
+**Backup2Chat** is a guided workflow and toolkit for extracting SMS conversations from an Android device backup and transforming them into readable chat logs **in the terminal or in a full interactive browser viewer**.
 
 The project demonstrates the **entire pipeline** from:
 
 ```
-
-Android device → ADB backup → decrypted archive → extracted JSON → terminal chat viewer
-
+Android device → ADB backup → decrypted archive → extracted JSON → terminal viewer / browser viewer
 ```
 
 Along the way, you will learn how to:
 
-- Extract encrypted Android backup files
-- Decompress telephony backup data
-- Analyze SMS data using `jq`
-- Reconstruct conversations
-- View chats interactively in the terminal
+* Extract encrypted Android backup files
+* Decompress telephony backup data
+* Analyze SMS data using `jq`
+* Reconstruct conversations from raw datasets
+* View chats in the terminal (fast, minimal analysis)
+* Explore conversations in a browser (interactive, searchable, visual)
 
-By the end of this guide you will understand the **entire manual workflow**, and then appreciate how **`smsviewer.sh` automates the final step**.
+By the end of this guide you will understand the **entire manual workflow**, and then appreciate how the automation scripts:
 
----
+* `smsviewer.sh` → terminal-based viewer
+* `sms_to_Viewer.sh` → full interactive HTML viewer
 
-| File | Purpose |
-|-----|------|
-| `backupCheck.sh` | Determines which apps allow ADB backups |
-| `decompress.sh` | Decompresses Android telephony `_backup` files |
-| `smsviewer.sh` | Interactive terminal chat viewer |
-| `Docs/jq(cheatsheet)` | Helpful `jq` reference |
+transform the process into a **single-command pipeline**.
 
 ---
 
