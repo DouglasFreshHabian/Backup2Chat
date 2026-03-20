@@ -120,7 +120,7 @@ This extracts the contents into JSON fragments.
 Next combine them:
 
 ```bash
-cat *_backup.json > sms_backup.json
+jq -s 'add' *.json > sms_backup.json
 ```
 
 You now have:
