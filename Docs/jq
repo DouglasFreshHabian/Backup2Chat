@@ -1,0 +1,43 @@
+# jq SMS Backup Quick Cheatsheet
+
+# show all fields in the first message
+jq '.[0] | keys' sms_backup.json
+
+# convert millisecond timestamps to human-readable dates
+jq '.[] | {date: (.date|tonumber/1000|strftime("%Y-%m-%d %H:%M:%S")), body, address}' sms_backup.json
+
+# print messages formatted like a conversation
+jq -r '.[] | ((.date|tonumber/1000|strftime("%Y-%m-%d %H:%M")) + " | " + (if .type=="1" then .address else "Me" end) + ": " + .body)' sms_backup.json
+
+# show messages from a specific contact
+jq '.[] | select(.address=="+15555555555")' sms_backup.json
+
+# show only sent messages
+jq '.[] | select(.type=="2")' sms_backup.json
+
+# detect group chats (multiple recipients)
+jq '.[] | select(.recipients | length > 1)' sms_backup.json
+
+# remove proto metadata field
+jq 'del(.[] .subject)' sms_backup.json > sms_clean.json
+
+# export SMS messages to CSV
+jq -r '.[] | [.date, .address, .body] | @csv' sms_backup.json
+
+# count messages per contact
+jq -r '.[].address' sms_backup.json | sort | uniq -c | sort -nr
+
+# show contacts with the most messages
+jq -r '.[].address' sms_backup.json | sort | uniq -c | sort -nr | head
+
+# sort messages chronologically
+jq 'sort_by(.date)' sms_backup.json > sorted_sms.json
+
+# group all messages by contact
+jq 'group_by(.address)' sms_backup.json
+
+# print threaded conversations
+jq -r 'group_by(.address)[] | "===== Conversation with " + .[0].address + " =====", (.[] | ((.date|tonumber/1000|strftime("%Y-%m-%d %H:%M")) + " | " + (if .type=="1" then .address else "Me" end) + ": " + .body)), ""' sms_backup.json
+
+### Prepare conversations for splitting into files
+jq -r 'group_by(.address)[] | (.[0].address) as $a | .[] | [$a, (.date|tonumber/1000|strftime("%Y-%m-%d %H:%M")), (if .type=="1" then $a else "Me" end), .body] | @tsv' sms_backup.json
